@@ -11,9 +11,17 @@
 //
 
 #include "game.h"
+#include <SFML/Audio.hpp>
 
 int main(int argc, const char * argv[])
 {
+    sf::Music music;
+   
+    if(!music.openFromFile("GatorChompGoGators.wav"))
+    {
+        return -1; // error
+    }
+    music.play();
     
     Game game;
     

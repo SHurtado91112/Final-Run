@@ -21,6 +21,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "notes.h"
+#include "exit.h"
 
 using namespace tinyxml2;
 
@@ -29,8 +30,8 @@ Level::Level()
     
 }
 
-Level::Level(std::string mapName, Vector2 spawnPoint, Graphics &graphics) :
-    _mapName(mapName), _spawnPoint(spawnPoint), _size(Vector2(0,0))
+Level::Level(std::string mapName, Graphics &graphics) :
+    _mapName(mapName), _size(Vector2(0,0))
 {
     this->loadMap(mapName, graphics);
 }
@@ -287,7 +288,7 @@ void Level::loadMap(std::string mapName, Graphics &graphics)
                         ss << name;
                         if(ss.str() == "player")
                         {
-                            this->_spawnPoint = Vector2(std::ceil(x) * globals::SPRITE_SCALE, std::ceil(y) * globals::SPRITE_SCALE);
+                            this->_spawnPoint = Vector2(std::ceil(x) * globals::SPRITE_SCALE, std::ceil(y));
                         }
                         pObject = pObject -> NextSiblingElement("object");
                     }
@@ -311,7 +312,7 @@ void Level::loadMap(std::string mapName, Graphics &graphics)
                         ss << name;
                         if(ss.str() == "LiuFinal")
                         {
-                            this->_enemies.push_back(new LiuFinal(graphics, Vector2(std::floor(x) * globals::SPRITE_SCALE, std::floor(y) * globals::SPRITE_SCALE)));
+                            this->_enemies.push_back(new LiuFinal(graphics, Vector2(std::floor(x) * globals::SPRITE_SCALE, std::floor(y))));
                         }
                         pObject = pObject -> NextSiblingElement("object");
                     }
@@ -341,11 +342,34 @@ void Level::loadMap(std::string mapName, Graphics &graphics)
                 }
             }
             
+            else if(ss.str() == "Exit")
+            {
+                float x,y;
+                XMLElement * pObject = pObjectGroup -> FirstChildElement("object");
+                if(pObject != NULL)
+                {
+                    while(pObject)
+                    {
+                        x = pObject -> FloatAttribute("x");
+                        y = pObject -> FloatAttribute("y");
+                        const char * name = pObject -> Attribute("name");
+                        std::stringstream ss;
+                        ss << name;
+                        if(ss.str() == "exit")
+                        {
+                            //Graphics &graphics, std::string filePath, int sourceX, int sourceY, int width, int height, Vector2 spawnPoint, int timeToUpdate //64, 48, 32, 16,
+                            this->_exit.push_back(new Exit(graphics, "ItemImage.png", 64, 48, 32, 16, Vector2(std::floor(x) * globals::SPRITE_SCALE, std::floor(y) * globals::SPRITE_SCALE), 100));
+                        }
+                        pObject = pObject -> NextSiblingElement("object");
+                    }
+                }
+            }
+            
             pObjectGroup = pObjectGroup -> NextSiblingElement("objectgroup");
         }
-        
-    }
     
+    }
+
 }
 
 void Level::update(int elapsedTime, Player &player)
@@ -425,6 +449,19 @@ std::vector<Notes *> Level::checkNotesCollisions(const Rectangle &other)
         if(this->_notes.at(i) -> getBoundingBox().collidesWith(other))
         {
             others.push_back(this->_notes.at(i));
+        }
+    }
+    return others;
+}
+
+std::vector<Exit *> Level::checkExitCollisions(const Rectangle &other)
+{
+    std::vector<Exit*> others;
+    for(int i = 0; i < this->_exit.size(); i++)
+    {
+        if(this->_exit.at(i) -> getBoundingBox().collidesWith(other))
+        {
+            others.push_back(this->_exit.at(i));
         }
     }
     return others;

@@ -12,6 +12,7 @@
 #include "game.h"
 #include "graphics.h"
 #include "input.h"
+#include <iostream>
 
 namespace
 {
@@ -36,7 +37,7 @@ void Game::gameLoop()
     Input input;
     SDL_Event event;
     
-    this-> _level = Level("Map 1", Vector2(100, 100), graphics);
+    this-> _level = Level("Map 1", graphics);
     this-> _player = Player(graphics, this->_level.getPlayerSpawnPoint());
     this-> _hud = HUD(graphics, _player);
     int LAST_UPDATE_TIME = SDL_GetTicks();
@@ -87,7 +88,6 @@ void Game::gameLoop()
         {
             this->_player.jump();
         }
-        
         if(!input.isKeyHeld(SDL_SCANCODE_LEFT) && !input.isKeyHeld(SDL_SCANCODE_RIGHT))
         {
             this->_player.stopMoving();
@@ -95,11 +95,20 @@ void Game::gameLoop()
         
         const int CURRENT_TIME_MS = SDL_GetTicks();
         int ELAPSED_TIME_MS =  CURRENT_TIME_MS - LAST_UPDATE_TIME;
+        
+        this->_graphics = graphics;
+        
         this -> update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
         LAST_UPDATE_TIME = CURRENT_TIME_MS;
         
         this->draw(graphics);
+        
+        if(_player.getGameExit())
+        {
+            exit(0);//   return;
+        }
     }
+    
 }
 
 void Game::draw(Graphics &graphics)
@@ -140,7 +149,7 @@ void Game::update(float elapsedTime)
     std::vector<Enemy*> otherEnemies;
     if((otherEnemies = this->_level.checkEnemyCollisions(this->_player.getBoundingBox())).size() > 0)
     {
-        this->_player.handleEnemyCollisions(otherEnemies);
+        this->_player.handleEnemyCollisions(otherEnemies, _level, _graphics);
     }
     
     //check notes
@@ -148,5 +157,12 @@ void Game::update(float elapsedTime)
     if((otherNotes = this->_level.checkNotesCollisions(this->_player.getBoundingBox())).size() > 0)
     {
         this->_player.handleNotesCollisions(otherNotes);
+    }
+    
+    //check exiting
+    std::vector<Exit*> otherExit;
+    if((otherExit = this->_level.checkExitCollisions(this->_player.getBoundingBox())).size() > 0)
+    {
+        this->_player.handleExitCollisions(otherExit);
     }
 }

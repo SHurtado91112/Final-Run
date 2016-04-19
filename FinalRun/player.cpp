@@ -9,12 +9,14 @@
 #include <stdio.h>
 #include "player.h"
 #include "graphics.h"
+#include "exit.h"
 
+class Level;
 
 namespace player_constants
 {
     const float WALK_SPEED = 0.2f;
-    const float GRAVITY = 0.002f;
+    /*const*/ float GRAVITY = 0.002f;
     const float GRAVITY_CAP = 0.8f;
     const float JUMP_SPEED = 0.7f;
 }
@@ -73,6 +75,16 @@ void Player::stopMoving()
 {
     this -> _dx = 0.0f;
     this -> playAnimation(this->_facing == RIGHT ? "IdleRight" : "IdleLeft");
+}
+
+void Player::down()
+{
+    if(player_constants::GRAVITY == 0)
+    {
+        this->_dy = 0;
+        this->_dy += player_constants::JUMP_SPEED;
+        
+    }
 }
 
 void Player::jump()
@@ -143,7 +155,19 @@ void Player::handleSlopeCollisions(std::vector<Slope> &others)
     }
 }
 
-void Player::handleEnemyCollisions(std::vector<Enemy*> &others)
+void Player::handleEnemyCollisions(std::vector<Enemy*> &others, Level &level, Graphics &graphics)
+{
+    for(int i = 0; i < others.size(); i++)
+    {
+        level = Level("Map 2", graphics);
+        this->_x = level.getPlayerSpawnPoint().x;
+        this->_y = level.getPlayerSpawnPoint().y;
+        this->setGrade(this->getNotes());
+        this->gameEnded();
+    }
+}
+
+void Player::handleNotesCollisions(std::vector<Notes*> &others)
 {
     for(int i = 0; i < others.size(); i++)
     {
@@ -151,7 +175,7 @@ void Player::handleEnemyCollisions(std::vector<Enemy*> &others)
     }
 }
 
-void Player::handleNotesCollisions(std::vector<Notes*> &others)
+void Player::handleExitCollisions(std::vector<Exit*> &others)
 {
     for(int i = 0; i < others.size(); i++)
     {
@@ -165,6 +189,11 @@ void Player::incrNotes()
     {
         this->_notesCollected++;
     }
+}
+
+void Player::setGravity(int g)
+{
+    player_constants::GRAVITY = g;
 }
 
 void Player::gainHealth(int amount)

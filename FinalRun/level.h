@@ -19,6 +19,8 @@ class Graphics;
 class Player;
 class Enemy;
 class Notes;
+class Exit;
+class Tile;
 struct SDL_Texture;
 struct SDL_Rect;
 struct Tileset;
@@ -41,11 +43,12 @@ private:
     std::vector<Slope> _slopes;
     std::vector<Enemy*> _enemies;
     std::vector<Notes*> _notes;
+    std::vector<Exit*> _exit;
     
     void loadMap(std::string mapName, Graphics &graphics);
 public:
     Level();
-    Level(std::string mapName, Vector2 spawnPoint, Graphics &graphics);
+    Level(std::string mapName, Graphics &graphics);
     ~Level();
     
     void update(int elapsedTime, Player &player);
@@ -55,6 +58,7 @@ public:
     std::vector<Slope> checkSlopeCollisions(const Rectangle &other);
     std::vector<Enemy*> checkEnemyCollisions(const Rectangle &other);
     std::vector<Notes*> checkNotesCollisions(const Rectangle &other);
+    std::vector<Exit *> checkExitCollisions(const Rectangle &other);
     
     const Vector2 getPlayerSpawnPoint() const;
 };

@@ -17,9 +17,8 @@ Enemy::Enemy()
 }
 
 Enemy::Enemy(Graphics &graphics, std::string filePath, int sourceX, int sourceY, int width, int height, Vector2 spawnPoint, int timeToUpdate)
-:AnimatedSprite(graphics, filePath, sourceX, sourceY, width, height, spawnPoint.x, spawnPoint.y, timeToUpdate), _direction(RIGHT), _maxHealth(0),_currentHealth(0), _vectorX(spawnPoint.x), _vectorY(spawnPoint.y), _speed(0)
+:AnimatedSprite(graphics, filePath, sourceX, sourceY, width, height, spawnPoint.x, spawnPoint.y, timeToUpdate), _direction(RIGHT), _maxHealth(0),_currentHealth(0), _vectorX(spawnPoint.x), _vectorY(spawnPoint.y), _speed(0.4)
 {
-    
 }
 
 void Enemy::update(int elapsedTime, Player &player)
@@ -41,8 +40,7 @@ LiuFinal::LiuFinal()
     
 }
 
-//enemy position 224, 80, 32, 16
-LiuFinal::LiuFinal(Graphics &graphics, Vector2 spawnPoint) : Enemy(graphics, "ItemImage.png", 224, 80, 32, 16, spawnPoint, 140), _startingX(spawnPoint.x), _startingY(spawnPoint.y), _shouldMoveUp(false)
+LiuFinal::LiuFinal(Graphics &graphics, Vector2 spawnPoint) : Enemy(graphics, "FinalLiu.png", 0, 0, 16, 16, spawnPoint, 140), _startingX(spawnPoint.x), _startingY(spawnPoint.y), _shouldMoveUp(false)
 {
     this->setUpAnimations();
     this->playAnimation("Stag");
@@ -70,9 +68,6 @@ void LiuFinal::update(int elapsedTime, Player &player)
     
     this->_x += _vectorX*_speed;
     this->_y += _vectorY*_speed;
-    //std::cout<<"speed X: " << _speed<<std::endl;
-    //std::cout<<"speed y: " << _speed<<std::endl;
-    
 }
 
 void LiuFinal::draw(Graphics &graphics)
@@ -87,7 +82,7 @@ void LiuFinal::animationDone(std::string currentAnimation)
 
 void LiuFinal::setUpAnimations()
 {
-    this->addAnimation(1, 7, 48, "Stag", 32, 16, Vector2(0,0));
+    this->addAnimation(1, 0, 0, "Stag", 32, 32, Vector2(0,0));
 }
 
 void LiuFinal::touchPlayer(Player *player)

@@ -20,11 +20,25 @@ private:
     
     //notes dimensions
     //x = [64][96], y = [48][64], width = 32, height = 16
+    Sprite _noteHolder1;
+    Sprite _noteHolder2;
+    Sprite _noteHolder3;
+    Sprite _noteHolder4;
+    Sprite _noteHolder5;
+    
     Sprite _noteSprite1;
     Sprite _noteSprite2;
     Sprite _noteSprite3;
     Sprite _noteSprite4;
     Sprite _noteSprite5;
+    
+    Sprite _grader;
+    
+    Sprite _gradeF;
+    Sprite _gradeD;
+    Sprite _gradeC;
+    Sprite _gradeB;
+    Sprite _gradeA;
     
 public:
     HUD();
