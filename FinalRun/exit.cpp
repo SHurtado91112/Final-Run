@@ -2,7 +2,9 @@
 //  exit.cpp
 //  FinalRun
 //
-//  Created by Steven Hurtado on 4/19/16.
+//  Class that monitors exit door for game once the player has been reached
+//
+//  Created by Steven Hurtado, Aaron Bourque, Lahari Manchikanti, Renzo Rodriguez, and Kemley Nieva on 4/19/16.
 //  Copyright © 2016 GroupCOP3503. All rights reserved.
 //
 

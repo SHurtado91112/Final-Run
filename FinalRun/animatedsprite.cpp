@@ -2,7 +2,7 @@
 //  animatedsprite.cpp
 //  FinalRun
 //
-//  Created by Steven Hurtado on 3/25/16.
+//  Created by Steven Hurtado, Aaron Bourque, Lahari Manchikanti, Renzo Rodriguez, and Kemley Nieva on 3/25/16.
 //  Copyright © 2016 GroupCOP3503. All rights reserved.
 //
 
@@ -24,6 +24,7 @@ AnimatedSprite::AnimatedSprite(Graphics &graphics, const std::string &filePath, 
 void AnimatedSprite::addAnimation(int frames, int x, int y, std::string name, int width, int height
                                   , Vector2 offset)
 {
+    //iterates through frames of a sprite sheet
     std::vector<SDL_Rect> rectangles;
     for(int i = 0; i < frames; i++)
     {

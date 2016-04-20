@@ -2,7 +2,9 @@
 //  item.cpp
 //  FinalRun
 //
-//  Created by Steven Hurtado on 4/12/16.
+//  Class for Notes, item to be picked up
+//
+//  Created by Steven Hurtado, Aaron Bourque, Lahari Manchikanti, Renzo Rodriguez, and Kemley Nieva on 4/12/16.
 //  Copyright © 2016 GroupCOP3503. All rights reserved.
 //
 

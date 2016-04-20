@@ -2,7 +2,9 @@
 //  hud.cpp
 //  FinalRun
 //
-//  Created by Steven Hurtado on 4/5/16.
+//  Class for Heads Up Display icons and extra images
+//
+//  Created by Steven Hurtado, Aaron Bourque, Lahari Manchikanti, Renzo Rodriguez, and Kemley Nieva on 4/5/16.
 //  Copyright © 2016 GroupCOP3503. All rights reserved.
 //
 
@@ -10,7 +12,6 @@
 #include "graphics.h"
 #include "notes.h"
 #include <iostream>
-//#include "globals.h"
 
 class Notes;
 

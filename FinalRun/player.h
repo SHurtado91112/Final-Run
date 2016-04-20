@@ -2,7 +2,7 @@
 //  player.h
 //  FinalRun
 //
-//  Created by Steven Hurtado on 3/26/16.
+//  Created by Steven Hurtado, Aaron Bourque, Lahari Manchikanti, Renzo Rodriguez, and Kemley Nieva on 3/26/16.
 //  Copyright © 2016 GroupCOP3503. All rights reserved.
 //
 

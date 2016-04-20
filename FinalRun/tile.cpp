@@ -2,7 +2,9 @@
 //  tile.cpp
 //  FinalRun
 //
-//  Created by Steven Hurtado on 3/27/16.
+//  class for tiles and their attributes
+//
+//  Created by Steven Hurtado, Aaron Bourque, Lahari Manchikanti, Renzo Rodriguez, and Kemley Nieva on 3/27/16.
 //  Copyright © 2016 GroupCOP3503. All rights reserved.
 //
 

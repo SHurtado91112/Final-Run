@@ -4,7 +4,7 @@
 //
 //  Information for main game loop
 //
-//  Created by Steven Hurtado on 3/24/16.
+//  Created by Steven Hurtado, Aaron Bourque, Lahari Manchikanti, Renzo Rodriguez, and Kemley Nieva on 3/24/16.
 //  Copyright © 2016 GroupCOP3503. All rights reserved.
 //
 
@@ -22,7 +22,10 @@ namespace
 
 Game::Game()
 {
+    //function from SDL framework that initializes any necessary values
     SDL_Init(SDL_INIT_EVERYTHING);
+    
+    //enter gameloop
     this->gameLoop();
     
 }
@@ -33,13 +36,22 @@ Game::~Game()
 
 void Game::gameLoop()
 {
+    
+    //create instance of graphics class, input class, and SDL_Event class
     Graphics graphics;
     Input input;
     SDL_Event event;
     
+    //create first level, from map titled "Map 1"
     this-> _level = Level("Map 1", graphics);
+    
+    //create player instance
     this-> _player = Player(graphics, this->_level.getPlayerSpawnPoint());
+    
+    //create Heads Up Display instance
     this-> _hud = HUD(graphics, _player);
+    
+    //retrieve the last update time
     int LAST_UPDATE_TIME = SDL_GetTicks();
     
     
@@ -48,6 +60,7 @@ void Game::gameLoop()
     {
         input.beginNewFrame();
         
+        //event listening for keys and other possible functions
         if(SDL_PollEvent(&event))
         {
             if(event.type == SDL_KEYDOWN)
@@ -72,7 +85,6 @@ void Game::gameLoop()
         }
         if(input.wasKeyPressed(SDL_SCANCODE_ESCAPE) == true)
         {
-            //WILL BE USED TO OUTPUT PAUSE MENU SCREEN (FOR QUITTING AND INVENTORY)
             return;
         }
         else if(input.isKeyHeld(SDL_SCANCODE_LEFT) == true)
@@ -93,6 +105,7 @@ void Game::gameLoop()
             this->_player.stopMoving();
         }
         
+        //update the time
         const int CURRENT_TIME_MS = SDL_GetTicks();
         int ELAPSED_TIME_MS =  CURRENT_TIME_MS - LAST_UPDATE_TIME;
         
@@ -101,16 +114,19 @@ void Game::gameLoop()
         this -> update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
         LAST_UPDATE_TIME = CURRENT_TIME_MS;
         
+        //draw the updated graphics instance
         this->draw(graphics);
         
+        //gets boolean to see if the game has been exited
         if(_player.getGameExit())
         {
-            exit(0);//   return;
+            exit(0);//exits the game;
         }
     }
     
 }
 
+//function to draw the graphics
 void Game::draw(Graphics &graphics)
 {
     graphics.clear();
@@ -120,9 +136,11 @@ void Game::draw(Graphics &graphics)
     
     this-> _hud.draw(graphics);
     
+    //passes the rendered image
     graphics.flip();
 }
 
+//updates several instances
 void Game::update(float elapsedTime)
 {
     this->_player.update(elapsedTime);
@@ -138,7 +156,7 @@ void Game::update(float elapsedTime)
         this->_player.handleTileCollisions(others);
     }
     
-    //check slopes
+    //check slopes, not used for this project
     std::vector<Slope> otherSlopes;
     if((otherSlopes = this->_level.checkSlopeCollisions(this->_player.getBoundingBox())).size() > 0)
     {

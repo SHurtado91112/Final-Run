@@ -2,7 +2,7 @@
 //  level.cpp
 //  FinalRun
 //
-//  Created by Steven Hurtado on 3/26/16.
+//  Created by Steven Hurtado, Aaron Bourque, Lahari Manchikanti, Renzo Rodriguez, and Kemley Nieva on 3/26/16.
 //  Copyright © 2016 GroupCOP3503. All rights reserved.
 //
 
@@ -33,6 +33,7 @@ Level::Level()
 Level::Level(std::string mapName, Graphics &graphics) :
     _mapName(mapName), _size(Vector2(0,0))
 {
+    //load map with the file name and graphics instance
     this->loadMap(mapName, graphics);
 }
 
@@ -318,7 +319,8 @@ void Level::loadMap(std::string mapName, Graphics &graphics)
                     }
                 }
             }
-
+            
+            //parsing for any items, specifically notes
             else if(ss.str() == "Items")
             {
                 float x,y;
@@ -342,6 +344,7 @@ void Level::loadMap(std::string mapName, Graphics &graphics)
                 }
             }
             
+            //parsing for exit ways out of game
             else if(ss.str() == "Exit")
             {
                 float x,y;
@@ -372,6 +375,7 @@ void Level::loadMap(std::string mapName, Graphics &graphics)
 
 }
 
+//updates enemies and notes with an elapsed time
 void Level::update(int elapsedTime, Player &player)
 {
     for(int i = 0; i < this->_enemies.size(); i++)
@@ -384,6 +388,7 @@ void Level::update(int elapsedTime, Player &player)
     }
 }
 
+//draws the parsed objects
 void Level::draw(Graphics &graphics, Player &player)
 {
     for(int i = 0; i < this-> _tileList.size(); i++)
@@ -401,6 +406,7 @@ void Level::draw(Graphics &graphics, Player &player)
     }
 }
 
+//checks for collisions with tiles
 std::vector<Rectangle> Level::checkTileCollisions(const Rectangle &other)
 {
     std::vector<Rectangle> others;
@@ -415,6 +421,7 @@ std::vector<Rectangle> Level::checkTileCollisions(const Rectangle &other)
     return others;
 }
 
+//checks for collisions with slopes
 std::vector<Slope> Level::checkSlopeCollisions(const Rectangle &other)
 {
     std::vector<Slope> others;
@@ -429,6 +436,7 @@ std::vector<Slope> Level::checkSlopeCollisions(const Rectangle &other)
     return others;
 }
 
+//checks for collisions with enemies
 std::vector<Enemy *> Level::checkEnemyCollisions(const Rectangle &other)
 {
     std::vector<Enemy*> others;
@@ -441,6 +449,8 @@ std::vector<Enemy *> Level::checkEnemyCollisions(const Rectangle &other)
     }
     return others;
 }
+
+//checks for collision with notes
 std::vector<Notes *> Level::checkNotesCollisions(const Rectangle &other)
 {
     std::vector<Notes*> others;
@@ -454,6 +464,7 @@ std::vector<Notes *> Level::checkNotesCollisions(const Rectangle &other)
     return others;
 }
 
+//checks for collisions with notes
 std::vector<Exit *> Level::checkExitCollisions(const Rectangle &other)
 {
     std::vector<Exit*> others;
@@ -467,6 +478,7 @@ std::vector<Exit *> Level::checkExitCollisions(const Rectangle &other)
     return others;
 }
 
+//returns the player's spawn point
 const Vector2 Level::getPlayerSpawnPoint() const
 {
     return this-> _spawnPoint;

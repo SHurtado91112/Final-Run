@@ -6,7 +6,7 @@
 //
 //  Main of program
 //
-//  Created by Steven Hurtado on 3/24/16.
+//  Created by Steven Hurtado, Aaron Bourque, Lahari Manchikanti, Renzo Rodriguez, and Kemley Nieva on 3/24/16.
 //  Copyright © 2016 GroupCOP3503. All rights reserved.
 //
 
@@ -15,6 +15,9 @@
 
 int main(int argc, const char * argv[])
 {
+    
+    //start of program, using resource from SFML framework to play wav file
+    //gator theme
     sf::Music music;
    
     if(!music.openFromFile("GatorChompGoGators.wav"))
@@ -23,8 +26,10 @@ int main(int argc, const char * argv[])
     }
     music.play();
     
+    //create an instance of a game class
     Game game;
     
+    //keeps the game going infinitely, until stopped by exit call
     while(true)
     {
         

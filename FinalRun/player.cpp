@@ -2,7 +2,7 @@
 //  player.cpp
 //  FinalRun
 //
-//  Created by Steven Hurtado on 3/26/16.
+//  Created by Steven Hurtado, Aaron Bourque, Lahari Manchikanti, Renzo Rodriguez, and Kemley Nieva on 3/26/16.
 //  Copyright © 2016 GroupCOP3503. All rights reserved.
 //
 
@@ -97,6 +97,8 @@ void Player::jump()
     }
 }
 
+//following code handles collisions for various objects
+
 void Player::handleTileCollisions(std::vector<Rectangle> &others)
 {
     for(int i = 0; i < others.size(); i++)
@@ -183,6 +185,7 @@ void Player::handleExitCollisions(std::vector<Exit*> &others)
     }
 }
 
+//increments the notes value after having collected one
 void Player::incrNotes()
 {
     if(this->_timerBool)
@@ -191,16 +194,19 @@ void Player::incrNotes()
     }
 }
 
+//if wanted, gravity maybe be changed to a particular variable
 void Player::setGravity(int g)
 {
     player_constants::GRAVITY = g;
 }
 
+//function that effects health either positively or negatively
 void Player::gainHealth(int amount)
 {
     this->_currentHealth += amount;
 }
 
+//updates player
 void Player::update(float elapsedTime)
 {
     //apply gravity
@@ -219,6 +225,7 @@ void Player::update(float elapsedTime)
     AnimatedSprite::update(elapsedTime);
 }
 
+//draws player
 void Player::draw(Graphics &graphics)
 {
     AnimatedSprite::draw(graphics, this-> _x, this-> _y);
